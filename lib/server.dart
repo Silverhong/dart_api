@@ -19,5 +19,6 @@ void main(List<String> arguments) async {
 
   app.mount('/product', ProductRoute().router);
 
-  await io.serve(app, 'localhost', 8081);
+  await io.serve(app, '51.79.251.248', 8081);
+  // await io.serve(app, 'localhost', 8081);
 }

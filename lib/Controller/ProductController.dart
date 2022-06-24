@@ -73,4 +73,23 @@ class ProductController {
         SuccessResponse(description: 'operation successful', data: obj)
             .toResponse());
   }
+
+  Future search(Request request, String searchText) async {
+    if (searchText == null) {
+      return Response.badRequest(
+          body: ErrorResponse(description: 'please provide correct param')
+              .toResponse());
+    }
+
+    var result = await Singleton.instance.connection.query(
+        "SELECT * FROM productmaster WHERE id LIKE '%${searchText}%' OR productname LIKE '%${searchText}%' OR description LIKE '%${searchText}%' OR price LIKE '%${searchText}%' OR tax LIKE '%${searchText}%' OR size LIKE '%${searchText}%' OR quantity LIKE '%${searchText}%'");
+
+    var data = result.map((e) => e.fields).toList();
+
+    var response = ResponseAPI(
+            success: true, description: 'operation successful', data: data)
+        .toJson();
+
+    return Response.ok(jsonEncode(response));
+  }
 }

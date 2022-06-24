@@ -15,6 +15,10 @@ class ProductRoute {
       "data": []
     };
     router.get('/', (Request request) => ProductController().getAll(request));
+    router.get(
+        '/search/<searchText>',
+        (Request request, String searchText) =>
+            ProductController().search(request, searchText));
     router.post('/', (Request request) => ProductController().post(request));
     router.delete(
         '/<id>',
