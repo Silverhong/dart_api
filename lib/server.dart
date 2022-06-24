@@ -6,6 +6,7 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as io;
 
 void main(List<String> arguments) async {
+  Singleton singleton = Singleton.instance;
   Singleton.instance.connectDb();
 
   final app = Router();

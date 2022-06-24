@@ -5,15 +5,15 @@ class Singleton {
 
   late MySqlConnection connection;
 
-  void connectDb() async {
+  Future connectDb() async {
     var settings = new ConnectionSettings(
-        host: 'localhost',
+        host: '51.79.251.248',
         port: 3306,
         user: 'root',
-        password: 'silverhong',
+        password: 'Bc@dmin168',
         db: 'sample_db');
     connection = await MySqlConnection.connect(settings);
-    print('connected');
+    print(connection);
   }
 
   factory Singleton() {
