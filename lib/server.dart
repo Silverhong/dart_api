@@ -1,6 +1,8 @@
 import 'package:product_api/Controller/UserController.dart';
 import 'package:product_api/Instrastructor/Singleton.dart';
+import 'package:product_api/Route/ProductRoute.dart';
 import 'package:product_api/Route/UserRoute.dart';
+import 'package:product_api/Route/UserProfileRoute.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as io;
@@ -12,6 +14,10 @@ void main(List<String> arguments) async {
   final app = Router();
 
   app.mount('/user', UserRoute().router);
+
+  app.mount('/user/profile', UserProfileRoute().router);
+
+  app.mount('/product', ProductRoute().router);
 
   await io.serve(app, 'localhost', 8081);
 }

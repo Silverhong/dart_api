@@ -1,21 +1,40 @@
-class Product {
-  String? username;
-  String? email;
-  String? password;
+class Products {
+  int? id;
+  String? productname;
+  String? description;
+  double? price;
+  double? tax;
+  String? size;
+  int? quantity;
 
-  Product({this.username, this.email, this.password});
+  Products(
+      {this.id,
+      this.productname,
+      this.description,
+      this.price,
+      this.tax,
+      this.size,
+      this.quantity});
 
-  Product.fromJson(Map<String, dynamic> json) {
-    username = json['username'];
-    email = json['email'];
-    password = json['password'];
+  Products.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    productname = json['productname'];
+    description = json['description'];
+    price = json['price'];
+    tax = json['tax'];
+    size = json['size'];
+    quantity = json['quantity'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['username'] = this.username;
-    data['email'] = this.email;
-    data['password'] = this.password;
+    data['id'] = this.id;
+    data['productname'] = this.productname;
+    data['description'] = this.description;
+    data['price'] = this.price;
+    data['tax'] = this.tax;
+    data['size'] = this.size;
+    data['quantity'] = this.quantity;
     return data;
   }
 }
