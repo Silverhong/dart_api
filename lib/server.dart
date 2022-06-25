@@ -3,6 +3,7 @@ import 'package:product_api/Instrastructor/Singleton.dart';
 import 'package:product_api/Route/ProductRoute.dart';
 import 'package:product_api/Route/UserRoute.dart';
 import 'package:product_api/Route/UserProfileRoute.dart';
+import 'package:shelf_cors_headers/shelf_cors_headers.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as io;
@@ -15,7 +16,7 @@ void main(List<String> arguments) async {
   final app = Router();
 
   // CORS Settings
-  const corsHeaders = {
+  const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET, POST, DELETE, PUT,OPTIONS',
     'Access-Control-Allow-Headers': '*',
@@ -28,20 +29,23 @@ void main(List<String> arguments) async {
   app.mount('/product', ProductRoute().router);
 
   // Set CORS headers with every request
-  final handler = Pipeline().addMiddleware((innerHandler) {
-    return (request) async {
-      final response = await innerHandler(request);
-      print(request.headers);
+  // final handler = Pipeline().addMiddleware((innerHandler) {
+  //   return (request) async {
+  //     final response = await innerHandler(request);
+  //     print(request.headers);
 
-      // Set CORS when responding to OPTIONS request
-      if (request.method == 'OPTIONS') {
-        return Response.ok('', headers: corsHeaders);
-      }
+  //     // Set CORS when responding to OPTIONS request
+  //     if (request.method == 'OPTIONS') {
+  //       return Response.ok('', headers: corsHeaders);
+  //     }
 
-      // Move onto handler
-      return response;
-    };
-  }).addHandler(app);
+  //     // Move onto handler
+  //     return response;
+  //   };
+  // }).addHandler(app);
+
+  final handler =
+      Pipeline().addMiddleware(corsHeaders(headers: headers)).addHandler(app);
 
   await io.serve(app, '51.79.251.248', port);
   // await io.serve(app, 'localhost', port);
