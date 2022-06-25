@@ -28,7 +28,7 @@ class ProductController {
     }
 
     var result = await Singleton.instance.connection
-        .query("SELECT * FROM productmaster WHERE id = ${id}'");
+        .query("SELECT * FROM productmaster WHERE id = ${id}");
 
     var data = result.map((e) => e.fields).toList();
 
@@ -113,8 +113,9 @@ class ProductController {
   }
 
   Future getById(Request request, String id) async {
+    print(id);
     var result = await Singleton.instance.connection
-        .query('select * from productmaster where id=${id} limit 1');
+        .query("SELECT * FROM productmaster WHERE id = ${id}");
 
     var data = result.map((e) => e.fields).toList();
 
