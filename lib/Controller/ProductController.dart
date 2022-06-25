@@ -20,6 +20,25 @@ class ProductController {
     return Response.ok(jsonEncode(response));
   }
 
+  Future get(Request request, String id) async {
+    if (id == null) {
+      return Response.badRequest(
+          body: ErrorResponse(description: 'please provide correct param')
+              .toResponse());
+    }
+
+    var result = await Singleton.instance.connection
+        .query("SELECT * FROM productmaster WHERE id = ${id}'");
+
+    var data = result.map((e) => e.fields).toList();
+
+    var response = ResponseAPI(
+            success: true, description: 'operation successful', data: data)
+        .toJson();
+
+    return Response.ok(jsonEncode(response));
+  }
+
   Future post(Request request) async {
     var body = await request.readAsString();
     if (body.length == 0) {

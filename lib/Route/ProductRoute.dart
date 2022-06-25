@@ -15,6 +15,8 @@ class ProductRoute {
       "data": []
     };
     router.get('/', (Request request) => ProductController().getAll(request));
+    router.get('/<id>',
+        (Request request, String id) => ProductController().get(request, id));
     router.get(
         '/search/<searchText>',
         (Request request, String searchText) =>
