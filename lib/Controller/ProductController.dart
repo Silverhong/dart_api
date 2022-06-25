@@ -32,6 +32,11 @@ class ProductController {
 
     var data = result.map((e) => e.fields).toList();
 
+    if (data == null || data.length == 0)
+      return Response.notFound(
+          ErrorResponse(description: 'please provide correct param')
+              .toResponse());
+
     var response = ResponseAPI(
             success: true, description: 'operation successful', data: data)
         .toJson();
