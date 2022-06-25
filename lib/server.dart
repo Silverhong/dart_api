@@ -17,8 +17,8 @@ void main(List<String> arguments) async {
   // CORS Settings
   const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': 'Origin, Content-Type',
+    'Access-Control-Allow-Methods': 'GET, POST, DELETE, PUT,OPTIONS',
+    'Access-Control-Allow-Headers': '*',
   };
 
   app.mount('/user', UserRoute().router);
@@ -28,22 +28,20 @@ void main(List<String> arguments) async {
   app.mount('/product', ProductRoute().router);
 
   // Set CORS headers with every request
+  final handler = Pipeline().addMiddleware((innerHandler) {
+    return (request) async {
+      final response = await innerHandler(request);
+      print(request.headers);
 
-  // final handler = Pipeline().addMiddleware((innerHandler) {
-  //   return (request) async {
+      // Set CORS when responding to OPTIONS request
+      if (request.method == 'OPTIONS') {
+        return Response.ok('', headers: corsHeaders);
+      }
 
-  //     final response = await innerHandler(request);
-  //     print(request.headers);
-
-  //     // Set CORS when responding to OPTIONS request
-  //     if (request.method == 'OPTIONS') {
-  //       return Response.ok('', headers: corsHeaders);
-  //     }
-
-  //     // Move onto handler
-  //     return response;
-  //   };
-  // }).addHandler(app);
+      // Move onto handler
+      return response;
+    };
+  }).addHandler(app);
 
   await io.serve(app, '51.79.251.248', port);
   // await io.serve(app, 'localhost', port);
