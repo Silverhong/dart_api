@@ -15,6 +15,12 @@ void main(List<String> arguments) async {
   const port = 8081;
   final app = Router();
 
+  app.mount('/user', UserRoute().router);
+
+  app.mount('/user/profile', UserProfileRoute().router);
+
+  app.mount('/product', ProductRoute().router);
+
   // CORS Settings
   const headers = {
     'Access-Control-Allow-Origin': '*',
@@ -22,31 +28,10 @@ void main(List<String> arguments) async {
     'Access-Control-Allow-Headers': '*',
   };
 
-  app.mount('/user', UserRoute().router);
-
-  app.mount('/user/profile', UserProfileRoute().router);
-
-  app.mount('/product', ProductRoute().router);
-
-  // Set CORS headers with every request
-  // final handler = Pipeline().addMiddleware((innerHandler) {
-  //   return (request) async {
-  //     final response = await innerHandler(request);
-  //     print(request.headers);
-
-  //     // Set CORS when responding to OPTIONS request
-  //     if (request.method == 'OPTIONS') {
-  //       return Response.ok('', headers: corsHeaders);
-  //     }
-
-  //     // Move onto handler
-  //     return response;
-  //   };
-  // }).addHandler(app);
-
+  // Enable CORS
   final handler =
       Pipeline().addMiddleware(corsHeaders(headers: headers)).addHandler(app);
 
-  await io.serve(app, '51.79.251.248', port);
-  // await io.serve(app, 'localhost', port);
+  await io.serve(handler, '51.79.251.248', port);
+  // await io.serve(handler, 'localhost', port);
 }
