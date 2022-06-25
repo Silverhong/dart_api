@@ -34,11 +34,10 @@ class ProductController {
 
     if (data == null || data.length == 0)
       return Response.notFound(
-          ErrorResponse(description: 'please provide correct param')
-              .toResponse());
+          ErrorResponse(description: 'product not found').toResponse());
 
     var response = ResponseAPI(
-            success: true, description: 'operation successful', data: data)
+            success: true, description: 'operation successful', data: data[0])
         .toJson();
 
     return Response.ok(jsonEncode(response));
