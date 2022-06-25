@@ -92,4 +92,21 @@ class ProductController {
 
     return Response.ok(jsonEncode(response));
   }
+
+  Future getById(Request request, String id) async {
+    var result = await Singleton.instance.connection
+        .query('select * from productmaster where id=${id} limit 1');
+
+    var data = result.map((e) => e.fields).toList();
+
+    if (data == null || data.length == 0)
+      return Response.badRequest(
+          body: ErrorResponse(description: 'product not found').toResponse());
+
+    var response = ResponseAPI(
+            success: true, description: 'operation successful', data: data[0])
+        .toJson();
+
+    return Response.ok(jsonEncode(response));
+  }
 }

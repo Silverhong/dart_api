@@ -20,8 +20,8 @@ class Products {
     id = json['id'];
     productname = json['productname'];
     description = json['description'];
-    price = json['price'];
-    tax = json['tax'];
+    price = json['price'].toDouble();
+    tax = json['tax'].toDouble();
     size = json['size'];
     quantity = json['quantity'];
   }

@@ -30,6 +30,12 @@ class ProductRoute {
         (Request request, String id) =>
             ProductController().update(request, id));
 
+    //Get by id
+    router.get(
+        '/<id>',
+        (Request request, String id) =>
+            ProductController().getById(request, id));
+
     return router;
   }
 }

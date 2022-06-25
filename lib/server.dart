@@ -32,6 +32,6 @@ void main(List<String> arguments) async {
   final handler =
       Pipeline().addMiddleware(corsHeaders(headers: headers)).addHandler(app);
 
-  await io.serve(handler, '51.79.251.248', port);
-  // await io.serve(handler, 'localhost', port);
+  // await io.serve(handler, '51.79.251.248', port);
+  await io.serve(handler, 'localhost', port);
 }
